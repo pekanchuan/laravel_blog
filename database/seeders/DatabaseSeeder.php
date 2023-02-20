@@ -25,11 +25,11 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $user = User::factory()->create([
-            'name' => 'Wey Way'
+            'name' => 'Wey Westshell'
         ]);
 
         $category = Category::factory()->create([
-            'name' => "Rock 'n Roll"
+            'name' => "Disco"
         ]);
 
         Post::factory(5)->create([
