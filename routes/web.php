@@ -5,6 +5,7 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
+use App\Http\Controllers\PostsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,27 +18,8 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 |
 */
 
-Route::get('/', static function () {
-    $posts = Post::latest();
-
-    if (request("search")) {
-        $posts
-            ->where('title', 'like', '%' . request('search') . '%')
-            ->orWhere('excerpt', 'like', '%' . request('search') . '%');
-    }
-
-    return view('posts', [
-        'posts' => $posts->get(),
-        'categories' => Category::all()
-    ]);
-})->name('home');
-
-Route::get('posts/{post:slug}', static function (Post $post) {
-//    dd($post);
-    return view('post', [
-        'post' => $post
-    ]);
-});
+Route::get('/', [PostsController::class, 'index'])->name('home');
+Route::get('posts/{post:slug}', [PostsController::class, 'show']);
 
 Route::get('categories/{category:slug}', static function (Category $category) {
     return view('posts', [
