@@ -20,9 +20,3 @@ use App\Http\Controllers\PostsController;
 
 Route::get('/', [PostsController::class, 'index'])->name('home');
 Route::get('posts/{post:slug}', [PostsController::class, 'show']);
-
-Route::get('authors/{author:username}', static function (User $author) {
-    return view('posts', [
-        'posts' => $author->posts
-    ]);
-});
