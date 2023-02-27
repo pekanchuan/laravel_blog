@@ -21,6 +21,21 @@ use App\Http\Controllers\PostCommentsController;
 |
 */
 
+Route::get('ping', function () {
+    $mailchimp = new \MailchimpMarketing\ApiClient();
+
+    $mailchimp->setConfig([
+        'apiKey' => config('services.mailchimp.key'),
+        'server' => 'us6'
+    ]);
+
+    $response = $mailchimp->lists->addListMember('', [
+        'email_address' => 'example@qq.com',
+        'status' => 'subscribed'
+    ]);
+    print_r($response);
+});
+
 Route::get('/', [PostsController::class, 'index'])->name('home');
 
 Route::get('posts/{post:slug}', [PostsController::class, 'show']);
