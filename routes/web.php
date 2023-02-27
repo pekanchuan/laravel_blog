@@ -21,7 +21,9 @@ use App\Http\Controllers\PostCommentsController;
 |
 */
 
-Route::get('ping', function () {
+Route::post('newsletter', function () {
+    request()->validate(['email' => 'required|email']);
+
     $mailchimp = new \MailchimpMarketing\ApiClient();
 
     $mailchimp->setConfig([
@@ -29,11 +31,18 @@ Route::get('ping', function () {
         'server' => 'us6'
     ]);
 
-    $response = $mailchimp->lists->addListMember('', [
-        'email_address' => 'example@qq.com',
-        'status' => 'subscribed'
-    ]);
-    print_r($response);
+    try {
+        $response = $mailchimp->lists->addListMember('', [
+            'email_address' => request('email'),
+            'status' => 'subscribed'
+        ]);
+    } catch (\Exception $e) {
+        throw \Illuminate\Validation\ValidationException::withMessages([
+            'email' => 'This email could not be added to our newsletter list.'
+        ]);
+    }
+
+    return redirect('/')->with('success', 'You are now signed up for our newsletter!');
 });
 
 Route::get('/', [PostsController::class, 'index'])->name('home');
