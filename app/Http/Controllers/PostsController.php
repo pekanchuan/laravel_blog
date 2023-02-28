@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostsController extends Controller
 {
@@ -19,6 +20,7 @@ class PostsController extends Controller
 
     public function create()
     {
+        return view('posts.create');
     }
 
     public function store(Request $request)
