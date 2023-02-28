@@ -10,7 +10,7 @@ class MustBeAdministrator
 {
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()?->username !== 'init') {
+        if (auth()->user()?->username !== 'westShell') {
             abort(Response::HTTP_FORBIDDEN);
         }
 
